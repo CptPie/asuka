@@ -54,7 +54,7 @@ type ApiResults struct {
 
 type Page struct {
 	PageInfo PageInfo       `json:"pageInfo"`
-	Results  []AnilistAnime `json:"media"`
+	Results  []AniListAnime `json:"media"`
 }
 
 type PageInfo struct {
@@ -62,9 +62,9 @@ type PageInfo struct {
 	PerPage float64 `json:"perPage"`
 }
 
-type AnilistAnime struct {
+type AniListAnime struct {
 	Id        float64      `json:"id"`
-	PosterURL AnilistImage `json:"coverImage"`
+	PosterURL AniListImage `json:"coverImage"`
 	Type      string       `json:"format"`
 	Title     AniListTitle `json:"title"`
 	Score     float64      `json:"meanScore"`
@@ -73,7 +73,7 @@ type AnilistAnime struct {
 	Season    string       `json:"season"`
 }
 
-type AnilistImage struct {
+type AniListImage struct {
 	LargeUrl string `json:"large"`
 }
 
@@ -106,7 +106,7 @@ func (a AniListProvider) Search(query string, fuzzy bool) ([]models.Anime, error
 	var results []models.Anime
 
 	for _, anime := range data.Data.Page.Results {
-		results = append(results, anime.AnilistToAnime())
+		results = append(results, anime.AniListToAnime())
 	}
 
 	if !fuzzy {
@@ -165,7 +165,7 @@ func (a AniListProvider) doRequest(query string) ([]byte, error) {
 	return body, nil
 }
 
-func (a AnilistAnime) AnilistToAnime() models.Anime {
+func (a AniListAnime) AniListToAnime() models.Anime {
 	return models.Anime{
 		AnimeId:   int(a.Id),
 		PosterURL: a.PosterURL.LargeUrl,
