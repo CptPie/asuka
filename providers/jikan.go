@@ -5,7 +5,7 @@ import (
 	"asuka/utils"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 )
 
@@ -19,6 +19,8 @@ func NewJikanProvider() JikanProvider {
 
 func (j *JikanProvider) Search(query string, fuzzy bool) ([]models.Anime, error) {
 
+	_ = fuzzy
+
 	url := fmt.Sprintf(j.fmtUrl, query)
 	fmt.Println(url)
 	resp, err := http.Get(url)
@@ -26,7 +28,7 @@ func (j *JikanProvider) Search(query string, fuzzy bool) ([]models.Anime, error)
 		return nil, err
 	}
 
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
